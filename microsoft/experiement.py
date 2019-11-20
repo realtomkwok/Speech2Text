@@ -7,6 +7,24 @@ speech_key, service_region = "087b5e1ed1494f77b1631627157d2b8a", "westus"
 speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
 
 # Transcribe audio file to text and translate it into targeted language (Chinese as an example)
+def speech_to_text(source_language):
+    speech_config.speech_recognition_language = source_language
+    speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_input)
+
+    print('正在识别...')
+    result = speech_recognizer.recognize_once()
+
+    # Check result.
+    if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+        print('识别结果为: {}'.format(result.text))
+    elif result.reason == speechsdk.ResultReason.NoMatch:
+        print("No speech could be recognized: {}".format(result.no_match_details))
+    elif result.reason == speechsdk.ResultReason.Canceled:
+        cancellation_details = result.cancellation_details
+        print("Speech Recognition canceled: {}".format(cancellation_details.reason))
+        if cancellation_details.reason == speechsdk.CancellationReason.Error:
+            print("Error details: {}".format(cancellation_details.error_details))
+
 def translate_speech_to_text():
     translation_config = speechsdk.translation.SpeechTranslationConfig(subscription=speech_key, region=service_region)
     fromLanguage = 'en-US'
@@ -16,7 +34,7 @@ def translate_speech_to_text():
 
     speech_recognizer = speechsdk.translation.TranslationRecognizer(translation_config=translation_config, audio_config=audio_input)
 
-    print("正在识别")
+    print("正在识别...")
     result = speech_recognizer.recognize_once()
 
     # Checks result.
@@ -34,9 +52,9 @@ def translate_speech_to_text():
             print("CANCELED: ErrorDetails={}".format(
                 result.cancellation_details.error_details))
 
-
 # Open file from folder
 audio_filename = "materials/Speech2Text-Material.wav"
 audio_input = speechsdk.AudioConfig(filename=audio_filename)
 
-translate_speech_to_text()
+speech_to_text('en-US') #en-US/GB zh-CN/HK/TW
+# translate_speech_to_text()
