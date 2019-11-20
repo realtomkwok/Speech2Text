@@ -10,7 +10,7 @@ speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_r
 def translate_speech_to_text():
     translation_config = speechsdk.translation.SpeechTranslationConfig(subscription=speech_key, region=service_region)
     fromLanguage = 'en-US'
-    toLanguage = 'yue'
+    toLanguage = 'yue' # Use 'zh-Hans' for Chinese (Simplified)
     translation_config.speech_recognition_language = fromLanguage
     translation_config.add_target_language(toLanguage)
 
