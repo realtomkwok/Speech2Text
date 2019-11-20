@@ -6,13 +6,11 @@ import os
 speech_key, service_region = "087b5e1ed1494f77b1631627157d2b8a", "westus"
 speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
 
-path = os.getcwd()
-
 # Transcribe audio file to text and translate it into targeted language (Chinese as an example)
 def translate_speech_to_text():
     translation_config = speechsdk.translation.SpeechTranslationConfig(subscription=speech_key, region=service_region)
     fromLanguage = 'en-US'
-    toLanguage = ''
+    toLanguage = 'yue'
     translation_config.speech_recognition_language = fromLanguage
     translation_config.add_target_language(toLanguage)
 
